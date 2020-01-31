@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block main %}
+
+<p>
+  Hello the newcomers !<br />
+  {{ chaine }}
+</p>
+<p>
+  {{ ip }} {{ infos }}
+</p>
+
+<h2>{% trans "Contact-us !" %}</h2>
+<p>{% trans quota %}</p>
+<p>{{langage}}</p>
+{% trans "mathematics" %}
+{% trans "french" %}
+{% trans "life and earth sciences" %}
+{% trans "physics and chemistry" %}
+{% trans "english" %}
+{% trans "spanish" %}
+{% trans "german" %}
+{% trans "philosophy" %}
+{% trans "history and geography" %}
+{% trans "economy" %}
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% load static %}
+{% load humanize %}
+{% load crispy_forms_tags %}
+{% load i18n %}
+
+{% block page_title %}{% trans "Sign Up" %}{% endblock %}
+{% block page_subtitle %}{% trans "Create an account to become able to post files!" %}{% endblock %}
+
+{% block main %}
+<div class="columns is-centered is-multiline">
+  <div class="column is-two-thirds">
+    <form method="post" action="{% url 'sign_up' %}" class="box">
+      {% csrf_token %}
+      <div class="container m-b-lg">
+        <div class="columns">
+          <div class="column">
+            {{ form.username|as_crispy_field }}
+          </div>
+        </div>
+        <div class="columns">
+          <div class="column">
+            {{ form.email|as_crispy_field }}
+          </div>
+        </div>
+        <div class="columns">
+          <div class="column">
+            {{ form.password|as_crispy_field }}
+          </div>
+          <div class="column">
+            {{ form.password_again|as_crispy_field }}
+          </div>
+        </div>
+      </div>
+      <div class="field has-text-centered">
+        <p>{% trans "Already have an account" %} ? <a href="{% url 'log_in' %}">{% trans "Log in here" %}.</a></p>
+      </div>
+      <div class="has-text-centered">
+        <button type="submit" class="button is-primary is-centered is-large has-text-weight-bold is-size-5" id="signup_bt">{% trans "Sign Up" %}</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,306 @@
+{% load static %}
+{% load has_group %}
+{% load i18n %}
+
+<!DOCTYPE html>
+<html class="has-navbar-fixed-top">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}School archives{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.css">
+    <link rel="stylesheet" href='{% static "css/base.css" %}'>
+    <link href="https://fonts.googleapis.com/css?family=Damion&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <header>
+      <nav class="navbar is-fixed-top {% block navbarcolor %}is-primary{% endblock %}" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+          <a class="navbar-item" href="{% url 'search_files' %}">
+            <!-- <img src='{% static "img/logo.png" %}' width="112" height="28"> -->
+            <div class="header_title">School Archives</div>
+          </a>
+
+          <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+          </a>
+        </div>
+
+        <div id="navbarBasicExample" class="navbar-menu">
+          <div class="navbar-start">
+            {% comment %}
+            <a class="navbar-item" href="{% url 'search_files' %}">
+              {% trans "Search" %}
+            </a>
+            <a class="navbar-item" href="{% url 'search_files' %}">
+            History
+            </a>
+            {% endcomment %}
+          </div>
+
+          <div class="navbar-end">
+
+            <div class="navbar-item">
+              <div class="buttons">
+                <a class="button" href="{% url 'search_files' %}">
+                  <span class="icon is-small">
+                    <i class="fas fa-search"></i>
+                  </span>
+                  <strong>{% trans "Search" %}</strong>
+                </a>
+                <a class="button" href="{% url 'upload_file' %}">
+                  <span class="icon is-small">
+                    <i class="fas fa-upload"></i>
+                  </span>
+                  <strong>{% trans "Upload files" %}</strong>
+                </a>
+              </div>
+            </div>
+
+            {% if user.is_authenticated %}
+            <div class="navbar-item">
+              <div class="buttons">
+                <a class="button" href="{% url 'profil' %}">
+                  <span class="icon is-small">
+                    <i class="fas fa-user"></i>
+                  </span>
+                  <span>{{user.username|title}}</span>
+                </a>
+              </div>
+            </div>
+            {% comment %}
+            <div class="navbar-item has-dropdown is-hoverable">
+              <a class="navbar-link button">
+                <span class="icon is-small">
+                  <i class="fas fa-user"></i>
+                </span>
+                <span>{{user.username|title}}</span>
+              </a>
+              <div class="navbar-dropdown is-right">
+                <a class="navbar-item" href="{% url 'profil' %}">
+                  <span class="icon is-small">
+                    <i class="fas fa-sign-out-alt"></i>
+                  </span>
+                  <span>{% trans "find your files !" %}</span>
+                </a>
+                <a class="navbar-item" href="{% url 'log_out' %}">
+                  <span class="icon is-small">
+                    <i class="fas fa-sign-out-alt"></i>
+                  </span>
+                  <span>{% trans "Log Out" %}</span>
+                </a>
+              </div>
+            </div>
+            {% endcomment %}
+            {% if request.user|has_group:"moderators" %}
+            <div class="navbar-item">
+              <div class="buttons">
+                <a class="button is-warning" href="{% url 'moderation_page' %}">
+                  <span class="icon is-small">
+                    <i class="fas fa-user-astronaut"></i>
+                  </span>
+                  <b>{% trans "Moderation" %}</b>
+                </a>
+              </div>
+            </div>
+            {% endif %}
+            {% else %}
+            <div class="navbar-item">
+              <div class="buttons">
+                <a class="button" id="open-modal">
+                  <span class="icon is-small">
+                    <i class="fas fa-sign-in-alt"></i>
+                  </span>
+                  <span>{% trans "Log In" %}</span>
+                </a>
+                <a class="button" href="{% url 'sign_up' %}">
+                  <span class="icon is-small">
+                    <i class="fas fa-user-plus"></i>
+                  </span>
+                  <span>{% trans "Sign Up" %}</span>
+                </a>
+              </div>
+            </div>
+            {% endif %}
+
+          </div>
+        </div>
+      </nav>
+    </header>
+    {% block header_second %}
+    <section class="section">
+      <div class="container">
+        <h1 class="title">
+          {% block page_title %}Hello World!{% endblock %}
+        </h1>
+        <p class="subtitle">
+          {% block page_subtitle %}My first website with <strong>Bulma</strong>!{% endblock %}
+        </p>
+      </div>
+    </section>
+    {% endblock %}
+    <section class="main_section">
+      {% block main %}
+      hi
+      {% endblock %}
+    </section>
+    <footer class="footer">
+      <div class="content has-text-centered">
+        <p>
+          <strong class="school_archives_title">School Archives</strong> {% trans "by" %} <a href="https://github.com/GregLefebvre">Grégoire Lefebvre</a>.
+        </p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br />{% trans "This work is licensed under a" %} <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
+      </div>
+    </footer>
+
+    <div class="modal">
+      <div class="modal-background"></div>
+      <div class="modal-content">
+        <div class="container">
+          <div class="columns is-centered">
+            <div class="column">
+              <form action="{% url 'log_in' %}" class="box" method="post">
+                {% csrf_token %}
+                <div class="field">
+                  <label for="" class="label">{% trans "Email" %}</label>
+                  <div class="control has-icons-left">
+                    <input type="email" placeholder="e.g. bobsmith@gmail.com" class="input" required id="id_email" name="email">
+                    <span class="icon is-small is-left">
+                      <i class="fa fa-envelope"></i>
+                    </span>
+                  </div>
+                </div>
+                <div class="field">
+                  <label for="" class="label">{% trans "Password" %}</label>
+                  <div class="control has-icons-left">
+                    <input type="password" placeholder="*******" class="input" required id="id_password" name="password">
+                    <span class="icon is-small is-left">
+                      <i class="fa fa-lock"></i>
+                    </span>
+                  </div>
+                </div>
+                <div class="field">
+                  <label for="" class="checkbox">
+                    <input type="checkbox">
+                    {% trans "Remember me" %}
+                  </label>
+                </div>
+                <div class="field has-text-centered">
+                  <p>{% trans "No account yet" %} ? <a href="{% url 'sign_up' %}">{% trans "Sign up here" %}.</a></p>
+                </div>
+                <div class="field has-text-centered">
+                  <button class="button is-success" type="submit" id="log_in_bt">
+                    {% trans "Login" %}
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <button class="modal-close is-large" aria-label="close"></button>
+      </div>
+    </div>
+
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script type="text/javascript">
+
+    //ajax setup
+    function getCookie(name) {
+      var cookieValue = null;
+      if (document.cookie && document.cookie != '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+          var cookie = jQuery.trim(cookies[i]);
+          // Does this cookie string begin with the name we want?
+          if (cookie.substring(0, name.length + 1) == (name + '=')) {
+            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+            break;
+          }
+        }
+      }
+      return cookieValue;
+    }
+
+    $.ajaxSetup({
+      beforeSend: function(xhr, settings) {
+        if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+          // Only send the token to relative URLs i.e. locally.
+          console.log('setting header');
+          xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+        }
+      }
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+
+      // Get all "navbar-burger" elements
+      const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+
+      // Check if there are any navbar burgers
+      if ($navbarBurgers.length > 0) {
+
+        // Add a click event on each of them
+        $navbarBurgers.forEach( el => {
+          el.addEventListener('click', () => {
+
+            // Get the target from the "data-target" attribute
+            const target = el.dataset.target;
+            const $target = document.getElementById(target);
+
+            // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
+            el.classList.toggle('is-active');
+            $target.classList.toggle('is-active');
+
+          });
+        });
+      }
+
+    });
+
+    open_modal = document.querySelectorAll('a#open-modal');
+    if (open_modal.length != 0) {
+      open_modal[0].addEventListener('click', function(event) {
+        event.preventDefault();
+        var modal = document.querySelector('.modal');  // assuming you have only 1
+        var html = document.querySelector('html');
+        modal.classList.add('is-active');
+        html.classList.add('is-clipped');
+
+        modal.querySelector('.modal-close').addEventListener('click', function(e) {
+          e.preventDefault();
+          modal.classList.remove('is-active');
+          html.classList.remove('is-clipped');
+        });
+      });
+    }
+
+    email_inp = document.getElementsByClassName('emailinput');
+    for (var i = 0; i < email_inp.length; i++) {
+      email_inp[i].classList.add('input');
+    }
+
+    forms = document.getElementsByTagName('form');
+    for (var i = 0; i < forms.length; i++) {
+      forms[i].addEventListener('submit', function(e) {
+        sub_bt = this.querySelector('button[type="submit"]');
+        sub_bt.classList.add('is-loading');
+      });
+    }
+
+    form_search = document.getElementsByTagName('form')[0];
+    search_bt = document.getElementById('search_bt');
+    form_search.addEventListener('submit', function(e) {
+      // e.preventDefault();
+      // console.log(search_bt.classList);
+      search_bt.classList.add('is-loading');
+    });
+
+    </script>
+    {% block js %}
+
+    {% endblock %}
+  </body>
+</html>

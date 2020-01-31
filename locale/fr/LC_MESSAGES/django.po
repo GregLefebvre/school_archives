@@ -1,0 +1,310 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-12-30 19:32+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: .\account\templates\account\log_in.html:18 .\templates\base.html:109
+msgid "Email"
+msgstr ""
+
+#: .\account\templates\account\log_in.html:27 .\templates\base.html:118
+msgid "Password"
+msgstr ""
+
+#: .\account\templates\account\log_in.html:38 .\templates\base.html:129
+msgid "Remember me"
+msgstr ""
+
+#: .\account\templates\account\log_in.html:42 .\templates\base.html:133
+msgid "No account yet"
+msgstr ""
+
+#: .\account\templates\account\log_in.html:42 .\templates\base.html:133
+msgid "Sign up here"
+msgstr ""
+
+#: .\account\templates\account\log_in.html:46 .\templates\base.html:137
+msgid "Login"
+msgstr ""
+
+#: .\account\templates\account\profil.html:7
+msgid "Hello"
+msgstr ""
+
+#: .\account\templates\account\profil.html:8
+msgid "find your files !"
+msgstr ""
+
+#: .\account\templates\account\profil.html:14
+#, python-format
+msgid ""
+"\n"
+"      You have 1 file.\n"
+"      "
+msgid_plural ""
+"\n"
+"      You have %(nb|intword)s files.\n"
+"      "
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\account\templates\account\profil.html:20
+msgid "Sorted by date"
+msgstr ""
+
+#: .\account\templates\account\profil.html:30
+#: .\files_exchange\templates\files_exchange\search_files.html:66
+msgid "No files yet"
+msgstr ""
+
+#: .\account\templates\account\profil.html:30
+#: .\files_exchange\templates\files_exchange\upload_file.html:7
+msgid "Upload file"
+msgstr ""
+
+#: .\account\templates\account\sign_up.html:7
+#: .\account\templates\account\sign_up.html:39 .\templates\base.html:65
+msgid "Sign Up"
+msgstr ""
+
+#: .\account\templates\account\sign_up.html:8
+msgid "Create an account to become able to post files!"
+msgstr ""
+
+#: .\account\templates\account\sign_up.html:36
+msgid "Already have an account"
+msgstr ""
+
+#: .\account\templates\account\sign_up.html:36
+msgid "Log in here"
+msgstr ""
+
+#: .\files_exchange\forms.py:13 .\files_exchange\forms.py:34
+msgid "School"
+msgstr ""
+
+#: .\files_exchange\models.py:12
+msgid "School's type"
+msgstr ""
+
+#: .\files_exchange\models.py:24 .\files_exchange\models.py:78
+msgid "School's name"
+msgstr ""
+
+#: .\files_exchange\models.py:26
+msgid "School's City"
+msgstr ""
+
+#: .\files_exchange\models.py:28 .\files_exchange\models.py:81
+msgid "Creation date"
+msgstr ""
+
+#: .\files_exchange\models.py:44 .\files_exchange\models.py:79
+msgid "Section"
+msgstr ""
+
+#: .\files_exchange\models.py:56 .\files_exchange\models.py:80
+msgid "Discipline"
+msgstr ""
+
+#: .\files_exchange\models.py:75
+msgid "File's name"
+msgstr ""
+
+#: .\files_exchange\models.py:77
+msgid "File's description"
+msgstr ""
+
+#: .\files_exchange\models.py:82
+msgid "File's author"
+msgstr ""
+
+#: .\files_exchange\templates\files_exchange\moderation_page.html:8
+#: .\templates\base.html:57
+msgid "Moderation"
+msgstr ""
+
+#: .\files_exchange\templates\files_exchange\moderation_page.html:9
+#: .\files_exchange\templates\files_exchange\moderation_page.html:59
+msgid "Is this file suitable for publishing?"
+msgstr ""
+
+#: .\files_exchange\templates\files_exchange\moderation_page.html:32
+msgid "View"
+msgstr ""
+
+#: .\files_exchange\templates\files_exchange\moderation_page.html:38
+msgid "Date"
+msgstr ""
+
+#: .\files_exchange\templates\files_exchange\moderation_page.html:68
+msgid "Yes"
+msgstr ""
+
+#: .\files_exchange\templates\files_exchange\moderation_page.html:73
+msgid "No"
+msgstr ""
+
+#: .\files_exchange\templates\files_exchange\one_file_page.html:21
+#: .\files_exchange\templates\files_exchange\one_file_page.html:35
+#: .\files_exchange\templates\files_exchange\one_file_page.html:38
+msgid "Download for free this file"
+msgstr ""
+
+#: .\files_exchange\templates\files_exchange\search_files.html:7
+msgid "Search files"
+msgstr ""
+
+#: .\files_exchange\templates\files_exchange\search_files.html:8
+msgid "find files for you!"
+msgstr ""
+
+#: .\files_exchange\templates\files_exchange\search_files.html:41
+#: .\templates\base.html:32
+msgid "Search"
+msgstr ""
+
+#: .\files_exchange\templates\files_exchange\search_files.html:50
+#, python-format
+msgid ""
+"\n"
+"      1 Result for your search\n"
+"      "
+msgid_plural ""
+"\n"
+"      %(nb|intword)s Results for your search\n"
+"      "
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\files_exchange\templates\files_exchange\search_files.html:56
+msgid "Sorted by relevance"
+msgstr ""
+
+#: .\files_exchange\templates\files_exchange\search_files.html:66
+msgid "Erase all"
+msgstr ""
+
+#: .\files_exchange\templates\files_exchange\test_i18n.html:14
+msgid "Contact-us !"
+msgstr ""
+
+#: .\files_exchange\templates\files_exchange\test_i18n.html:17
+msgid "mathematics"
+msgstr ""
+
+#: .\files_exchange\templates\files_exchange\test_i18n.html:18
+msgid "french"
+msgstr ""
+
+#: .\files_exchange\templates\files_exchange\test_i18n.html:19
+msgid "life and earth sciences"
+msgstr ""
+
+#: .\files_exchange\templates\files_exchange\test_i18n.html:20
+msgid "physics and chemistry"
+msgstr ""
+
+#: .\files_exchange\templates\files_exchange\test_i18n.html:21
+msgid "english"
+msgstr ""
+
+#: .\files_exchange\templates\files_exchange\test_i18n.html:22
+msgid "spanish"
+msgstr ""
+
+#: .\files_exchange\templates\files_exchange\test_i18n.html:23
+msgid "german"
+msgstr ""
+
+#: .\files_exchange\templates\files_exchange\test_i18n.html:24
+msgid "philosophy"
+msgstr ""
+
+#: .\files_exchange\templates\files_exchange\test_i18n.html:25
+msgid "history and geography"
+msgstr ""
+
+#: .\files_exchange\templates\files_exchange\test_i18n.html:26
+msgid "economy"
+msgstr ""
+
+#: .\files_exchange\templates\files_exchange\upload_file.html:8
+msgid "post a file to help people"
+msgstr ""
+
+#: .\files_exchange\templates\files_exchange\upload_file.html:31
+msgid "Choose a pdf file…"
+msgstr ""
+
+#: .\files_exchange\templates\files_exchange\upload_file.html:35
+msgid "No file uploaded"
+msgstr ""
+
+#: .\files_exchange\templates\files_exchange\upload_file.html:74
+msgid "Upload"
+msgstr ""
+
+#: .\files_exchange\views.py:24
+msgid "Hello the newcomers !"
+msgstr ""
+
+#: .\files_exchange\views.py:25
+#, python-format
+msgid "Your IP is %s"
+msgstr ""
+
+#: .\files_exchange\views.py:27
+#, python-format
+msgid "… and as far I know, you have %(nb)s %(col)s cat !"
+msgid_plural "… and as far I know, you have %(nb)s %(col)s cats !"
+msgstr[0] ""
+msgstr[1] ""
+
+#. Translators: This message informs the user about how many books he can borrow
+#: .\files_exchange\views.py:31
+msgid "3 books"
+msgstr ""
+
+#: .\school_archives\settings.py:131
+msgid "English"
+msgstr ""
+
+#: .\school_archives\settings.py:132
+msgid "French"
+msgstr ""
+
+#: .\templates\base.html:46
+msgid "Upload files"
+msgstr ""
+
+#: .\templates\base.html:53
+msgid "Log Out"
+msgstr ""
+
+#: .\templates\base.html:62
+msgid "Log In"
+msgstr ""
+
+#: .\templates\base.html:94
+msgid "by"
+msgstr ""
+
+#: .\templates\base.html:96
+msgid "This work is licensed under a"
+msgstr ""

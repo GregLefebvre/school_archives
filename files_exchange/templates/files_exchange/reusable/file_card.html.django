@@ -1,0 +1,70 @@
+{% load static %}
+{% load humanize %}
+{% load i18n %}
+
+<div class="column is-two-thirds file-container" {% ifequal file.status 1 %}data-url="{% url 'one_file_page' file.id file.slug_title %}"{% endifequal %}>
+  <div class="box">
+    <div class="container m-md  is-flex-desktop is-space-between">
+      <div class="title">{{file.title|title}}.pdf, {{file.size}}</div>
+      {% if profil %}
+        {% ifequal file.status 1 %}
+        <button class="button is-success is-light">
+          <span class="icon is-small">
+            <i class="fas fa-check"></i>
+          </span>
+          <span>{% trans "Published" %}</span>
+        </button>
+        {% endifequal %}
+        {% ifequal file.status 0 %}
+        <button class="button is-warning is-light">
+          <span class="icon is-small">
+            <i class="far fa-clock"></i>
+          </span>
+          <span>{% trans "Waiting for moderation" %}</span>
+        </button>
+        {% endifequal %}
+        {% ifequal file.status -1 %}
+        <button class="button is-danger is-light">
+          <span class="icon is-small">
+            <i class="far fa-times-circle"></i>
+          </span>
+          <span>{% trans "Not accepted" %}</span>
+        </button>
+        {% endifequal %}
+      {% endif %}
+    </div>
+    {% if profil %}
+    {% else %}
+    <div class="container m-md">
+      <div class="tags">
+        <span class="tag is-medium tag_custom {% ifequal file.school school %}is-success{% endifequal %}">{{file.school.title|title}}</span>
+        {% if file.school.city %}
+        <span class="tag is-medium {% ifequal file.school school %}is-success{% endifequal %}">{{file.school.city|title}}</span>
+        {% endif %}
+        <span class="tag is-medium {% ifequal file.promo promo %}is-success{% endifequal %}">{{file.promo.title}}</span>
+        <span class="tag is-medium {% ifequal file.subject subject %}is-success{% endifequal %}">{{file.subject.title|title}}</span>
+      </div>
+    </div>
+    {% endif %}
+    <nav class="level is-mobile">
+      <div class="level-item has-text-centered">
+        <div>
+          <p class="heading">{% trans "View" %}{{file.nb_views|pluralize}}</p>
+          <p class="subtitle">{{file.nb_views|intword}}</p>
+        </div>
+      </div>
+      <div class="level-item has-text-centered">
+        <div>
+          <p class="heading">{% trans "Date" %}</p>
+          <p class="subtitle">{{file.date|naturalday:"DATE_FORMAT"|title}}</p>
+        </div>
+      </div>
+    </nav>
+    {% if profil %}
+    {% else %}
+    <div class="container m-md">
+      <p>{{file.comment}}</p>
+    </div>
+    {% endif %}
+  </div>
+</div>

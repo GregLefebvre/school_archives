@@ -1,0 +1,159 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% load humanize %}
+{% load i18n %}
+
+{% block page_title %}{% trans "Upload file" %}{% endblock %}
+{% block page_subtitle %}{% trans "post a file to help people" %}{% endblock %}
+
+{% block main %}
+
+<div class="section" id="upload_form">
+  <form method="post" action="." enctype="multipart/form-data">
+    {% csrf_token %}
+    {# {{ form | crispy}} #}
+    {# <input type="submit" value="upload" /> #}
+
+
+    <div class="container m-b-lg">
+      <div class="columns">
+        <div class="column">
+          <div id="file-js" class="file has-name is-large is-centered is-boxed">
+            <label class="file-label">
+              {# <input class="file-input" type="file" name="resume"> #}
+              <input type="file" name="file_pdf" class="clearablefileinput file-input" required="" id="id_file_pdf">
+              <span class="file-cta">
+                <span class="file-icon">
+                  <i class="fas fa-upload"></i>
+                </span>
+                <span class="file-label">
+                  {% trans "Choose a pdf file…" %}
+                </span>
+              </span>
+              <span class="file-name">
+                {% trans "No file uploaded" %}
+              </span>
+            </label>
+          </div>
+          {% if form.file_pdf.errors %}
+            <div id="error_1_id_file_pdf" class="help is-danger has-text-centered">{{form.file_pdf.errors}}</div>
+          {% endif %}
+        </div>
+      </div>
+
+      <div class="columns">
+        <div class="column">
+          {{ form.title|as_crispy_field }}
+        </div>
+      </div>
+      <div class="columns">
+        <div class="column">
+          {{ form.school|as_crispy_field }}
+          <div class="dropdown" id="schools_propositions">
+            <div class="dropdown-menu" id="dropdown-menu" role="menu">
+              <div class="dropdown-content" id="schools_list">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="column">
+          {{ form.subject|as_crispy_field }}
+        </div>
+        <div class="column">
+          {{ form.promo|as_crispy_field }}
+        </div>
+      </div>
+      <div class="columns">
+        <div class="column">
+          {{ form.comment|as_crispy_field }}
+        </div>
+      </div>
+    </div>
+    <div class="has-text-centered">
+      <button type="submit" class="button is-primary is-centered is-large has-text-weight-bold is-size-5" id="upload_bt">{% trans "Upload" %}</button>
+    </div>
+
+  </form>
+</div>
+
+{% endblock %}
+
+{% block js %}
+
+<script type="text/javascript">
+const school_input = document.getElementById('id_school');
+school_input.addEventListener('keyup', function() {
+  school_input.classList.remove('is-danger');
+  school_input.classList.remove('is-success');
+  var str = this.value;
+  if (str.length >= 3) {
+
+    $.ajax({
+      url: "{% url 'propose_school' %}",
+      data: {
+        'school_short': str
+      },
+      dataType: 'json',
+      success: function (data) {
+        var schools = data.schools;
+        var school_drop = document.getElementById('schools_propositions');
+        if (schools.length > 0) {
+          var list_schools = document.getElementById('schools_list');
+          list_schools.innerHTML = '';
+          for (var i = 0; i < schools.length; i++) {
+            list_schools.innerHTML += '<a class="dropdown-item school_name_proposition">'+schools[i]+'</a>';
+            if (i != (schools.length-1)) {
+              list_schools.innerHTML += '<hr class="dropdown-divider">';
+            }
+          }
+          school_drop.classList.add('is-active');
+          school_input.classList.remove('is-danger');
+          school_input.classList.add('is-success');
+          propositions = document.getElementsByClassName('school_name_proposition')
+          for (var i = 0; i < propositions.length; i++) {
+            propositions[i].addEventListener('click', function() {
+              school_input.value = this.innerHTML.split(',')[0];
+              list_schools.innerHTML = '';
+              school_drop.classList.remove('is-active');
+            });
+          }
+        }else {
+          school_drop.classList.remove('is-active');
+          school_input.classList.add('is-danger');
+          school_input.classList.remove('is-success');
+        }
+        // console.log(data.schools);
+      }
+    });
+  }
+});
+
+form_search = document.getElementsByTagName('form')[0];
+search_bt = document.getElementById('upload_bt');
+form_search.addEventListener('submit', function(e) {
+  search_bt.classList.add('is-loading');
+});
+
+const fileInput = document.querySelector('#file-js input[type=file]');
+const fileContainer = document.getElementById('file-js');
+const titleInput = document.getElementById('id_title');
+  fileInput.onchange = () => {
+    if (fileInput.files.length > 0) {
+      const fileName = document.querySelector('#file-js .file-name');
+      fileName.textContent = fileInput.files[0].name;
+      var ext = fileInput.files[0].name.substr(fileInput.files[0].name.lastIndexOf('.') + 1);
+      if (ext == 'pdf') {
+        fileContainer.classList.add('is-success');
+        fileContainer.classList.remove('is-danger');
+        titleInput.value = fileInput.files[0].name.substring(0, fileInput.files[0].name.length-4);
+        titleInput.select();
+      }else {
+        fileContainer.classList.add('is-danger');
+        fileContainer.classList.remove('is-success');
+      }
+    }
+  }
+</script>
+
+{% endblock %}

@@ -1,0 +1,2 @@
+from files_exchange.models import *
+lycee = TypeSchool.objects.filter(slug_title="lycee")[0]

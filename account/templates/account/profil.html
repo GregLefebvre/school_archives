@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% load static %}
+{% load humanize %}
+{% load crispy_forms_tags %}
+{% load i18n %}
+
+{% block page_title %}{% trans "Hello" %} {{user.username|title}}{% endblock %}
+{% block page_subtitle %}{% trans "find your files !" %}{% endblock %}
+
+{% block main %}
+<div class="section has-text-centered">
+  <a class="button is-warning" href="{% url 'log_out' %}">
+    <span class="icon is-small">
+      <i class="fas fa-sign-out-alt"></i>
+    </span>
+    <span>{% trans "Log Out" %}</span>
+  </a>
+</div>
+<div class="section" id="results">
+  <div class="container">
+    <h1 class="title">
+      {% blocktrans with nb_i=files|length|intword count nb=files|length%}
+      You have 1 file.
+      {% plural %}
+      You have {{nb_i}} files.
+      {% endblocktrans %}
+    </h1>
+    <p class="subtitle">{% trans "Sorted by date" %}</p>
+  </div>
+</div>
+<div class="section p-t-none" id="search_results">
+  <div class="columns is-centered is-multiline">
+    {% for file in files  %}
+      {% include "files_exchange/reusable/file_card.html.django" %}
+    {% empty %}
+      <div class="column is-two-thirds">
+        <div class="box">
+          <div class="container">{% trans "No files yet" %} :-( . <a href="{% url 'upload_file' %}">{% trans "Upload file" %}.</a></div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+{% endblock %}
+
+
+{% block js %}
+<script type='text/javascript'>
+// $(document).ready(function(){
+//     window.location.href = '#results';
+// });
+
+file_containers = document.getElementsByClassName('file-container');
+if (file_containers != []) {
+  for (var i = 0; i < file_containers.length; i++) {
+    file_containers[i].addEventListener('click', function() {
+      if (this.getAttribute('data-url')) {
+        window.location = this.getAttribute('data-url');
+      }
+    });
+  }
+}
+
+</script>
+{% endblock %}

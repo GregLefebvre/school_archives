@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+{% load static %}
+{% load humanize %}
+{% load i18n %}
+
+{% block navbarcolor %}is-warning{% endblock %}
+
+{% block page_title %}{% trans "Moderation" %}{% endblock %}
+{% block page_subtitle %}{% trans "Is this file suitable for publishing?" %}{% endblock %}
+
+{% block main %}
+<div class="section" id="search_results">
+  <div class="columns is-centered is-multiline">
+    <div class="column is-two-thirds file-container" data-url="{% url 'one_file_page' file.id file.slug_title %}">
+      <div class="box">
+        <div class="container m-md">
+          <div class="title">{{file.title|title}}.pdf, {{file.size}}</div>
+        </div>
+        <div class="container m-md">
+          <div class="tags">
+            <span class="tag is-medium tag_custom">{{file.school.title|title}}</span>
+            {% if file.school.city %}
+            <span class="tag is-medium">{{file.school.city|title}}</span>
+            {% endif %}
+            <span class="tag is-medium">{{file.promo.title}}</span>
+            <span class="tag is-medium">{{file.subject.title|title}}</span>
+          </div>
+        </div>
+        <nav class="level is-mobile">
+          <div class="level-item has-text-centered">
+            <div>
+              <p class="heading">{% trans "View" %}{{file.nb_views|pluralize}}</p>
+              <p class="subtitle">{{file.nb_views|intword}}</p>
+            </div>
+          </div>
+          <div class="level-item has-text-centered">
+            <div>
+              <p class="heading">{% trans "Date" %}</p>
+              <p class="subtitle">{{file.date|naturalday:"DATE_FORMAT"|title}}</p>
+            </div>
+          </div>
+        </nav>
+        <div class="container m-md">
+          <p>{{file.comment}}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="column is-two-thirds" id="preview_pdf">
+      {# <a href="/static/js/ViewerJS/index.html#{{ MEDIA_URL }}{{file.file_pdf.name}}" class="button">Preview</a> #}
+      <iframe src = "/static/js/ViewerJS/index.html#{{ MEDIA_URL }}{{file.file_pdf.name}}" width='566' height='800' allowfullscreen webkitallowfullscreen class="pdf_preview"></iframe>
+    </div>
+
+    <div class="column is-two-thirds box m-t-md" id="moderation_question">
+      <form action="{% url 'moderation_page' %}" method="post" id="form_moderation">
+        {% csrf_token %}
+        <input type="hidden" name="opinion" value="" id="id_opinion">
+        <div class="has-text-centered m-sm m-b-lg">
+          <p class="is-size-3">{% trans "Is this file suitable for publishing?" %}</p>
+        </div>
+        <div class="buttons is-centered">
+          <div class="field is-grouped">
+            <p class="control">
+              <button class="button is-success is-large bt_opinion" data-opinion="True">
+                <span class="icon is-medium">
+                  <i class="fas fa-check"></i>
+                </span>
+                <span>{% trans "Yes" %}</span>
+              </button>
+            </p>
+            <p class="control">
+              <button class="button is-danger is-large bt_opinion" data-opinion="False">
+                <span>{% trans "No" %}</span>
+                <span class="icon is-medium">
+                  <i class="fas fa-times"></i>
+                </span>
+              </button>
+            </p>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+
+{% block js %}
+<script type="text/javascript">
+var pdf_preview = document.getElementsByTagName('iframe')[0];
+window.onload = function() {
+  console.log(pdf_preview.offsetWidth);
+  pdf_preview.style.height = pdf_preview.offsetWidth*1.4+'px';
+}
+
+const buttons = document.getElementsByClassName('bt_opinion');
+const op_input = document.getElementById('id_opinion');
+const form_mode = document.getElementById('form_moderation');
+for (var i = 0; i < buttons.length; i++) {
+  buttons[i].addEventListener('click', function(e) {
+    e.preventDefault();
+    op_input.value = this.getAttribute('data-opinion');
+    console.log(op_input.value);
+    form_mode.submit();
+  });
+}
+</script>
+{% endblock %}

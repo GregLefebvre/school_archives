@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% load static %}
+{% load humanize %}
+{% load i18n %}
+
+{% block header_second %}{% endblock %}
+
+{% block main %}
+<div class="section" id="search_results">
+  <div class="columns is-centered is-multiline">
+    {% if is_published %}
+    {% include "files_exchange/reusable/file_card.html.django" %}
+
+    <div class="column is-two-thirds" id="download_bt">
+      <a href='{{ MEDIA_URL }}{{file.file_pdf.name}}' download="{{file.slug_title}}-school-archives.pdf">
+        <div class="box has-background-primary has-text-white has-text-weight-bold is-size-5">
+          <div class="container has-text-centered">
+            <span class="icon is-small">
+                <i class="fas fa-file-download"></i>
+              </span>
+              <span>{% trans "Download for free this file" %}</span>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <div class="column is-two-thirds" id="preview_pdf">
+      {# <a href="/static/js/ViewerJS/index.html#{{ MEDIA_URL }}{{file.file_pdf.name}}" class="button">Preview</a> #}
+      <iframe src = "/static/js/ViewerJS/index.html#{{ MEDIA_URL }}{{file.file_pdf.name}}" width='566' height='800' allowfullscreen webkitallowfullscreen class="pdf_preview"></iframe>
+    </div>
+    {% else %}
+    <div class="column is-two-thirds box">
+      <article class="message is-warning">
+        <div class="message-header">
+          <p>{% trans "Download for free this file" %}</p>
+        </div>
+        <div class="message-body">
+          <p>{% trans "Download for free this file" %}</p>
+        </div>
+      </article>
+    </div>
+    {% endif %}
+
+  </div>
+</div>
+{% endblock %}
+
+
+{% block js %}
+<script type="text/javascript">
+var pdf_preview = document.getElementsByTagName('iframe')[0];
+window.onload = function() {
+  console.log(pdf_preview.offsetWidth);
+  pdf_preview.style.height = pdf_preview.offsetWidth*1.4+'px';
+}
+</script>
+{% endblock %}

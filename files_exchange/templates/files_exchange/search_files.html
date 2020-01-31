@@ -1,0 +1,229 @@
+{% extends "base.html" %}
+{% load static %}
+{% load humanize %}
+{% load crispy_forms_tags %}
+{% load i18n %}
+
+{% block page_title %}{% trans "Search files" %}{% endblock %}
+{% block page_subtitle %}{% trans "find files for you!" %}{% endblock %}
+
+{% block main %}
+
+<div class="section p-t-none" id="search_form">
+  <form method="post" action="{% url 'search_files' %}" class="box">
+    {% csrf_token %}
+    {{ form.page }}
+    {# <input type="hidden" name="id_page" value="1" id='id_page'> #}
+    {# {{ form | crispy }} #}
+    <div class="container m-b-lg">
+      <div class="columns">
+        <div class="column">
+          {{ form.title|as_crispy_field }}
+        </div>
+      </div>
+      <div class="columns">
+        <div class="column">
+          {{ form.school|as_crispy_field }}
+          <div class="dropdown" id="schools_propositions">
+            <div class="dropdown-menu" id="dropdown-menu" role="menu">
+              <div class="dropdown-content" id="schools_list">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="column">
+          {{ form.promo|as_crispy_field }}
+        </div>
+        <div class="column">
+          {{ form.subject|as_crispy_field }}
+        </div>
+      </div>
+    </div>
+    <div class="has-text-centered">
+      <button type="submit" class="button is-primary is-centered is-large has-text-weight-bold is-size-5" id="search_bt">{% trans "Search" %}</button>
+    </div>
+  </form>
+</div>
+
+{% if is_post and is_form_valid %}
+<div class="section" id="results">
+  <div class="container">
+    <h1 class="title">
+      <span>
+        {% blocktrans with nb_i=nb_files|intword count nb=nb_files%}
+        1 Result for your search
+        {% plural %}
+        {{nb_i}} Results for your search
+        {% endblocktrans %}
+      </span>
+      {% ifnotequal files.paginator.num_pages 1 %}
+      <span>, {{ files.number }}/{{ files.paginator.num_pages }}</span>
+      {% endifnotequal %}
+    </h1>
+    <p class="subtitle">{% trans "Sorted by relevance" %}</p>
+  </div>
+</div>
+<div class="section p-t-none" id="search_results">
+  <div class="columns is-centered is-multiline">
+    {% for file in files  %}
+      {% include "files_exchange/reusable/file_card.html.django" %}
+    {% empty %}
+      <div class="column is-two-thirds">
+        <div class="box">
+          <div class="container">{% trans "No files yet" %} :-( . <a href="{% url 'search_files' %}">{% trans "Erase all" %}.</a></div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+{% ifnotequal files.paginator.num_pages 1 %}
+<div class="section p-t-none" id="pagination">
+  <div class="columns is-centered is-multiline">
+    <div class="column is-two-thirds">
+      {% comment %}
+      <div>
+        {% if files.has_previous %}
+        <a id='previous_page_bt'>Précédente</a> -
+        {% endif %}
+
+        <span class="current">
+          Page {{ files.number }} sur {{ files.paginator.num_pages }}
+        </span>
+
+        {% if files.has_next %}
+        - <a id='next_page_bt'>Suivante</a>
+        {% endif %}
+      </div>
+      {% endcomment %}
+
+
+      <nav class="pagination is-centered" role="navigation" aria-label="pagination">
+        {% if files.has_previous %}
+        <a class="pagination-previous" id='previous_page_bt'>Previous</a>
+        {% endif %}
+        {% if files.has_next %}
+        <a class="pagination-next" id='next_page_bt'>Next page</a>
+        {% endif %}
+        <ul class="pagination-list">
+          {# <li><a class="pagination-link" aria-label="Goto page 1">1</a></li> #}
+          <li><span class="pagination-ellipsis">&hellip;</span></li>
+          <li><a class="pagination-link is-current" aria-current="page" href="#results">{{ files.number }}</a></li>
+          <li><span class="pagination-ellipsis">&hellip;</span></li>
+          {# <li><a class="pagination-link" aria-label="Goto page 86">86</a></li> #}
+        </ul>
+      </nav>
+
+    </div>
+  </div>
+</div>
+{% endifnotequal %}
+
+
+{% endif %}
+
+{% endblock %}
+
+
+{% block js %}
+{% if is_post and is_form_valid %}
+<script type='text/javascript'>
+main_form = document.getElementsByTagName('form')[0];
+
+$(document).ready(function(){
+    window.location.href = '#results';
+});
+
+file_containers = document.getElementsByClassName('file-container');
+if (file_containers != []) {
+  for (var i = 0; i < file_containers.length; i++) {
+    file_containers[i].addEventListener('click', function() {
+      if (this.getAttribute('data-url')) {
+        window.location = this.getAttribute('data-url');
+      }
+    });
+  }
+}
+
+</script>
+  {% if files.has_previous %}
+    <script type="text/javascript">
+      previous_page_number = {{files.previous_page_number}};
+      previous_page_bt = document.getElementById('previous_page_bt');
+      previous_page_bt.addEventListener('click', function(e) {
+        main_form.setAttribute('action', main_form.getAttribute('action')+previous_page_number+'/');
+        main_form.submit();
+      });
+    </script>
+  {% endif %}
+  {% if files.has_next %}
+    <script type="text/javascript">
+      next_page_number = {{files.next_page_number}};
+      next_page_bt = document.getElementById('next_page_bt');
+      next_page_bt.addEventListener('click', function(e) {
+        main_form.setAttribute('action', main_form.getAttribute('action')+next_page_number+'/');
+        main_form.submit();
+      });
+    </script>
+  {% endif %}
+{% endif %}
+
+<script type="text/javascript">
+
+main_form = document.getElementsByTagName('form')[0];
+main_form.addEventListener('submit', function() {
+  normal_url = "{% url 'search_files' %}";
+  if (normal_url == this.getAttribute('action')) {
+    this.setAttribute('action', this.getAttribute('action')+'1/');
+  }
+});
+
+const school_input = document.getElementById('id_school');
+school_input.addEventListener('keyup', function() {
+  school_input.classList.remove('is-danger');
+  school_input.classList.remove('is-success');
+  var str = this.value;
+  if (str.length >= 3) {
+
+    $.ajax({
+        url: "{% url 'propose_school' %}",
+        data: {
+          'school_short': str
+        },
+        dataType: 'json',
+        success: function (data) {
+          var schools = data.schools;
+          var school_drop = document.getElementById('schools_propositions');
+          if (schools.length > 0) {
+            var list_schools = document.getElementById('schools_list');
+            list_schools.innerHTML = '';
+            for (var i = 0; i < schools.length; i++) {
+              list_schools.innerHTML += '<a class="dropdown-item school_name_proposition">'+schools[i]+'</a>';
+              if (i != (schools.length-1)) {
+                list_schools.innerHTML += '<hr class="dropdown-divider">';
+              }
+            }
+            school_drop.classList.add('is-active');
+            school_input.classList.remove('is-danger');
+            school_input.classList.add('is-success');
+            propositions = document.getElementsByClassName('school_name_proposition')
+            for (var i = 0; i < propositions.length; i++) {
+              propositions[i].addEventListener('click', function() {
+                school_input.value = this.innerHTML.split(',')[0];
+                list_schools.innerHTML = '';
+                school_drop.classList.remove('is-active');
+              });
+            }
+          }else {
+            school_drop.classList.remove('is-active');
+            school_input.classList.add('is-danger');
+            school_input.classList.remove('is-success');
+          }
+          // console.log(data.schools);
+        }
+      });
+  }
+});
+</script>
+
+{% endblock %}

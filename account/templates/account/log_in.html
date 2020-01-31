@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% load static %}
+{% load humanize %}
+{% load i18n %}
+
+{% block header_second %}{% endblock %}
+
+{% block main %}
+<div class="modal is-active">
+  <div class="modal-background"></div>
+  <div class="modal-content">
+    <div class="container">
+      <div class="columns is-centered">
+        <div class="column">
+          <form action="{% url 'log_in' %}" class="box" method="post">
+            {% csrf_token %}
+            <div class="field">
+              <label for="" class="label">{% trans "Email" %}</label>
+              <div class="control has-icons-left">
+                <input type="email" placeholder="e.g. bobsmith@gmail.com" class="input" required id="id_email" name="email">
+                <span class="icon is-small is-left">
+                  <i class="fa fa-envelope"></i>
+                </span>
+              </div>
+            </div>
+            <div class="field">
+              <label for="" class="label">{% trans "Password" %}</label>
+              <div class="control has-icons-left">
+                <input type="password" placeholder="*******" class="input" required id="id_password" name="password">
+                <span class="icon is-small is-left">
+                  <i class="fa fa-lock"></i>
+                </span>
+              </div>
+            </div>
+            <div class="field">
+              <label for="" class="checkbox">
+                <input type="checkbox">
+                {% trans "Remember me" %}
+              </label>
+            </div>
+            <div class="field has-text-centered">
+              <p>{% trans "No account yet" %} ? <a href="{% url 'sign_up' %}">{% trans "Sign up here" %}.</a></p>
+            </div>
+            <div class="field has-text-centered">
+              <button class="button is-success" type="submit" id="log_in_bt">
+                {% trans "Login" %}
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
